@@ -10,7 +10,7 @@
 * Tables
   | Some | Data |
   | ---- |      |
-  | 12   |      |
+  | 1   |      |
 * Source code
 #+Begin_example
   def edit_specail_test()
@@ -26,7 +26,7 @@
 ** TODO cycle through states c+c,c+t
 ** TODO sft+M+enter to copy pattern
 ** TODO c+c c+d to set a deadline date
-   DEADLINE: <2021-03-28 Su>
+DEADLINE: <2021-03-28 Su>
 
   
   
