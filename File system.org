@@ -1,0 +1,74 @@
+* File system
+
+* Content :TOC_2_gh:noexport:
+- [[#file-system][File system]]
+- [[#file-system-1][File System]]
+  - [[#disk-and-directory-capacity][Disk and Directory capacity]]
+  - [[#hard-link-and-symbolick-link][Hard link and Symbolick link]]
+  -   [[#command][Command]]
+- [[#bash-shell][Bash shell]]
+  - [[#command-1][Command]]
+  - [[#variable][Variable]]
+
+* File System
+** Disk and Directory capacity
+   1. df : report file sys disk space usage
+      -h, human read
+   2. du : list all file's capacity (unit: 1K)
+** Hard link and Symbolick link
+*** Hard link :
+Equal to copy the ordinary file, same inode to original file.
+| 34474855 -rw-r--r--. 2 root root 451 Jun 10  2014 crontab      |
+| 34474855 -rw-r--r--. 2 root root 451 Jun 10  2014 /etc/crontab |                                                                |
+**** limit on Hard link:
+1. Can't use on diff.
+2. Can't link a directory.
+*** Symbolic Link :
+Build a new file(new inode), it would point to orignal file.
+| 34474855 -rw-r--r--. 2 root root 451 Jun 10  2014 /etc/crontab                   |
+| 53745909 lrwxrwxrwx. 1 root root  12 Jun 23 22:31 /root/crontab2 -> /etc/crontab |
+**** Flaw on SL :
+1. It would be malfuntion if original is deleted.
+**   Command
+| Command  | describtion                                          | Ref |
+|----------+------------------------------------------------------+-----|
+| =df=     | report file sys disk space usage                     |     |
+| =du=     | list all file's capacity (unit: 1K)                  |     |
+| =ln=     | create a hard link                                   |     |
+| =lsblk=  | list block device                                    |     |
+| =blkid=  | use it to find device UUID                           |     |
+| =parted= | list all partition infor, usually use on devide disk |     |
+| =parted= | list all partition infor, usually use on devide disk |     |
+| =gdisk=  | GPT partitione                                       |     |
+| =fdisk=  | MBR partition                                        |     | 
+* Bash shell
+** Command
+| Command   | Describtion                                                           | Ref |
+|-----------+-----------------------------------------------------------------------+-----|
+| =type=    | can see where is the command come from                                |     |
+| =ubset=   | cancel the PATH setting                                               |     |
+| =env=     | Bash environment info                                                 |     |
+| =set=     | All environment info                                                  |     |
+| =export=  | make variable able to use in every environment                        |     |
+| =locale=  | supported language form                                               |     |
+| =read=    | create a variable                                                     |     |
+| =declare= | declare the attribute of variable(ex: int, array, char, read-only...) |     |
+
+** Variable
+*** Change PATH
+| [dmtsai@study ~]$ echo ${myname} |
+| [dmtsai@study ~]$ myname=VBird   |
+| [dmtsai@study ~]$ echo ${myname} |
+| VBird                            |
+*** Command Prompt
+=PS1=
+| [dmtsai@study home]$ PS1='[\u@\h \w \A #\#]\$ ' |
+| [dmtsai@study /home 17:02 #85]$                 |
+*** Create a variable
+=read=
+| [dmtsai@study ~]$ read -p "Please keyin your name: " -t 30 named | 
+| Please keyin your name: VBird Tsai                               | 
+| [dmtsai@study ~]$ echo ${named}                                  | 
+| VBird Tsai                                                       | 
+
+
