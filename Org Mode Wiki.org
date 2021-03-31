@@ -8,9 +8,8 @@
 * Link
 ** c+c, c+l to create a link : [[https://orgmode.org/][org mode]]  
 * Tables
-  | Some | Data |
-  | ---- |      |
-  | 1   |      |
+** |
+   type: \ver t || cc+cx \
 * Source code
 #+Begin_example
   def edit_specail_test()
@@ -27,7 +26,6 @@
 ** TODO sft+M+enter to copy pattern
 ** TODO c+c c+d to set a deadline date
 DEADLINE: <2021-03-28 Su>
-
   
   
 

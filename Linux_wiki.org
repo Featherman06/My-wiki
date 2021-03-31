@@ -11,6 +11,7 @@
   - [[#login-or-non-login-shell][Login or Non-login shell]]
   - [[#file-redirect][File redirect]]
   - [[#command-executed-logic-char][Command executed logic char]]
+  - [[#fetch-command][Fetch Command]]
 
 * File System
 ** Disk and Directory capacity
@@ -117,7 +118,7 @@ Build a new file(new inode), it would point to orignal file.
 ** File redirect
 *** Standard output(STDOUT) & Standard error output(STDERR)
     Copy normal or error screen message and extract to a file.
-    | pattern    | code | command                            |
+    | Pattern    | Code | Command                            |
     |------------+------+------------------------------------|
     | stdin      |    0 | < or <<                            |
     | stdout     |    1 | > or >>                            |
@@ -133,7 +134,23 @@ Build a new file(new inode), it would point to orignal file.
     =cat > catfile < ~/.bashrc=  // Overwrite catfile by .bashrc
     =<< "char"= // Overwrite until "char"
 ** Command executed logic char
+   | Command      | Description                   | Ref |
+   |--------------+-------------------------------+-----|
+   | cmd; cmd     | cmd1; cmd2                    |     |
+   | cmd1 && cmd2 | if cmd1 == true; cmd2 true    |     |
+   |              | if cmd1 == false; cmd2 false  |     |
+   | cmd1 \vert\vert cmd2 | if cmd1 == false; cmd2 true   |     |
+   |              | if cmd1 == true; cmd2 false   |     |
+   | \vert (pipe)     | Ex: ls -al /etc \vert less(cmd)   |     |
+** Fetch Command
+   | Command | Description                   | Ref |
+   |---------+-------------------------------+-----|
+   | =cut=   | slice and extract the section |     |
+   | =grep=  | slice the row to analyse      |     |
+   |         |                               |     |
    
+
+
 
 
 
