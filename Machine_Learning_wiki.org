@@ -3,31 +3,46 @@
 
 
 * Basic Concept
-** Regression
-*The function ouptputs a scalar.*
-** Classification
-*Given options(classes) outputs the correct one.*
+** Branches of Machine Learning
+*** Supervised Learning
+- The algorithms learn from labeled data to determine which
+   label should give to unlabeled data. By learning from the pattern.
+**** Regression
+- The function ouptputs a scalar.    
+**** Classification
+- Given options(classes) outputs the correct one.   
+*** Unsupervised Learning
+- Learning from data when are no preexisting labels to train on.
+- The applicatios fro these techniques are pretty vast.
+*** Reinforcement Learning
+- learning based on taking certain actions and receiving rewards for those actions.
+- The applications includes self-driving cars and game-playing agents.
+** Barriers to Deep Learning
+1. Must have enough data
+2. Must have the computing power
+3. Probably won't understand why certain decisions were being made
 ** Structure Learning
-*Create something with structure(image, doc...)*
+- Create something with structure(image, doc...)
 *** Function with Unknown Parameters
-*Model: y = b + wx1*   based on domain knowlege
+- Model: y = b + wx1
+- based on domain knowlege
 y: weight, b: bias
 *** Define Loss from Training Data
-*Loss is a function of parameters*
-*Equation: L(b, w)*
+- Loss is a function of parameters
+- Equation: L(b, w)
 Loss: how good a set of valus is
 - Mean absolute error(MAE): e = |y-ytest|
 - Mean square error (MSE):  e = (y - ytest)square
 - Cross-entropy: Probability distributions
 *** Optimization
-*Find minimium Loss*
-*Equation: w(star), b(star) = ar g minL*
+- Find minimium Loss
+- Equation: w(star), b(star) = ar g minL
 **** Gradient Descent
 1. (Randomly)Pick an intial value w0
 2. Compute w0 to find its negative or positive
+3. Update w iteratively
 - n: learning rate(hyperparameters)
 - hyperparameters: Need to be set by your own
-3. Update w iteratively
 - local minima: relative minimum point, not the most minimum.
 - global minima: absolute minimum point, the most.
 **** Linear model
@@ -38,8 +53,7 @@ Loss: how good a set of valus is
 - 1 epoch: see all the batches once
 - update: update parameters
 ***** Loss
-*Equation*
-- L(theta)
+Equation: L(theta)
 theta: a lot of parameters
 - The steps as same as gradient descent      
 ***** Piecewise Linear Curves
@@ -53,3 +67,97 @@ theta: a lot of parameters
 - diff b: shift
 - diff c: change heigh
 ***** Rectified Linear Unit(ReLU)
+* Tool
+** Scikit-learn
+
+** PyTorch
+- An open source machine learning framework.
+- Tensor computation(like Numpy) with strong GPU acceleration.
+*** Tensor
+- High-dimensional matrix(array)
+| Data Type              | dtype       | Tensor            |
+|------------------------+-------------+-------------------|
+| 32-bit floating point  | torch.float | torch.FloatTensor |
+| 64-bit integer(signed) | torch.long  | torch.LongTensor  |
+|------------------------+-------------+-------------------|
+- dim in Pytorch == axis in Numpy
+**** Constructor
+- x = torch.tensor(list)
+- x = torch.from_numpy(np.array())
+   
+
+**** Operators
+| Cmd                      | description               | Example |
+|--------------------------+---------------------------+---------|
+| =x.squeeze(dim)=         | remove spec dim           |         |
+| =x.unsqueeze(dim)=       | expand a new dim          |         |
+| =x.transpose(dim1,dim2)= | transpose two dim         |         |
+| =torch.cat([])=          | concatenate multi tensors |         |
+|--------------------------+---------------------------+---------|
+**** Device
+- Default: tensors & modules will be computed with CPU
+- CPU: x = x.to('cpu')
+- GPU: x = x.to('GPU')
+***** Nvidia CUDA
+- check if your computer has Nvidia GPU:
+   torch.cuda.is_available()
+- Parallel computing
+* Overview of the DNN Procedure
+** Load Data
+1. Read Data and process
+2. Returns one sample at a time
+3. Returns the size of the dataset
+*** dataloader
+- dataset = MyDataset(file)
+- dataloader = Dataloader(dataset, batch_size, shuffle=True)
+shuffle -> traing: true, testing: false
+** Define Neural Network
+*** Linear Layer(Fully-connected Layer)
+- nn.Linear(in_features, out_features)
+*** Activation Function
+- nn.Sigmoid()
+- nn.ReLU()
+** Loss Functions
+- For Linear Regression: nn.MSEloss()
+- For Classification: nn.CrossEntropyLoss()
+*** Build your own Neural Network
+1. Initialize your model & define layers
+2. Compute output of your NN
+** Optimizer
+- Optimization algorithms for NN(gredient descent)
+*** Stochastic Gradient Descent(SGD)
+- torch.optim.SGD(params, lr, momentum = 0)
+** Training 
+#+BEGIN_SRC python
+for epoch in range(n_epochs):                # iterate n_epochs
+    model.train()                            # set model to train mode
+    for x, y in tr_set:                      # iterate through the dataloader
+        optimizer.zero_grad()                # set gradient to zero
+        x, y = x.to(dedive), y.to(device)    # move data to device(cpu/gpu)
+        pred = model(x)                      # forward pass(compute output)
+        loss = criterion(pred, y)            # compute loss
+        loss.backward()                      # compute gradient(backpropagation)
+        optimizer.step()                     # update model with optimizer
+#+END_SRC
+** Validation
+#+BEGIN_SRC python
+model.eval()                                     # set model to evaluation mode
+total_loss = 0
+for x, y in dv_set:                              # iterate through the dataloader
+    x, y = x.to(device), y.to(device)            # move data to device(cpu/gpu)
+    with torch.no_grad():                        # disable gradient calculation
+        pred = model(x)                          # forward pass(compute output)
+        loss = criterion(pred, y)                # compute loss
+    total_loss += loss.cpu().item() * len(x)     # accumulate loss
+    avg_loss = total_loss / len(dv_set.dataset)  # compute  averaged loss
+#+END_SRC
+** Testing
+#+BEGIN_SRC python
+model.eval()                                     # set model to evaluation mode
+preds = []   
+for x in tt_set:                                 # iterate through the dataloader
+    x, y = x.to(device)                          # move data to device(cpu/gpu)
+    with torch.no_grad():                        # disable gradient calculation
+        pred = model(x)                          # forward pass(compute output)
+        preds.append(pred.cpu())                 # collect prediction
+#+END_SRC
